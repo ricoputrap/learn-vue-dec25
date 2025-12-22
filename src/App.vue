@@ -1,39 +1,14 @@
 <script setup lang="ts">
-import { ref } from "vue";
-
-const name = ref("RICO");
-const count = ref(0);
-
-function increment() {
-    count.value++;
-}
-function decrement() {
-    count.value--;
-}
-function reset() {
-    count.value = 0;
-}
+import Header from "./Header.vue";
+import Reactivity from "./Reactivity.vue";
 </script>
 
 <template>
-    <h1>You did it {{ name }}!</h1>
-    <p>
-        Visit
-        <a href="https://vuejs.org/" target="_blank" rel="noopener"
-            >vuejs.org</a
-        >
-        to read the documentation
-    </p>
+    <Header />
 
-    <div class="counter">
-        <p>Count: {{ count }}</p>
-    </div>
-
-    <div class="buttons">
-        <button @click="increment">Increment</button>
-        <button @click="decrement">Decrement</button>
-        <button @click="reset">Reset</button>
-    </div>
+    <main>
+        <Reactivity />
+    </main>
 </template>
 
 <style scoped>
