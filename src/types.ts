@@ -1,6 +1,6 @@
-export type Book = {
-  id: string;
-  title: string;
-  category: string;
-  is_borrowed: boolean;
+export type ChatMessage = {
+    id: string;
+    sender: string;
+    text: string;
+    createdAt: number;
 };
