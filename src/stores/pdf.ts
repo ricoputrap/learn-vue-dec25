@@ -31,12 +31,16 @@ export const usePdfStore = defineStore("pdf", () => {
             }
 
             const body = await response.json().catch(() => ({}));
+            // Expected FastAPI response: { filename, message, file: { id, name, url } }
+            const fileMeta = body?.file ?? {};
 
             activePdf.value = {
-                name: file.name,
+                name: fileMeta.name ?? file.name,
                 size: file.size,
                 uploadedAt: Date.now(),
-                path: body?.path ?? body?.filePath ?? undefined,
+                path: fileMeta.url ?? undefined,
+                id: fileMeta.id ?? undefined,
+                message: body?.message ?? undefined,
             };
             status.value = "success";
         } catch (err) {

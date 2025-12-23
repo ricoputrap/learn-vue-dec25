@@ -12,4 +12,6 @@ export type UploadedPdf = {
     size: number;
     uploadedAt: number;
     path?: string;
+    id?: string;
+    message?: string;
 };
