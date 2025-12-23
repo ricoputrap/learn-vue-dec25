@@ -3,6 +3,7 @@ import { computed, ref } from "vue";
 
 const props = defineProps<{
   canClear: boolean;
+  isBusy?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -14,7 +15,7 @@ const text = ref("");
 const canSend = computed(() => text.value.trim().length > 0);
 
 function handleSend() {
-  if (!canSend.value) return;
+  if (!canSend.value || props.isBusy) return;
   emit("send", text.value);
   text.value = "";
 }
@@ -30,7 +31,9 @@ function handleSend() {
       placeholder="Type a message"
       aria-label="Message"
     />
-    <button type="submit" :disabled="!canSend">Send</button>
+    <button type="submit" :disabled="!canSend || props.isBusy">
+      {{ props.isBusy ? "Thinking..." : "Send" }}
+    </button>
     <button
       type="button"
       class="chat__clear"

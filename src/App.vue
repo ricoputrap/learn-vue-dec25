@@ -1,16 +1,38 @@
 <script setup lang="ts">
+import { ref } from "vue";
 import ChatComposer from "./components/ChatComposer.vue";
 import ChatHeader from "./components/ChatHeader.vue";
 import ChatMessages from "./components/ChatMessages.vue";
 import PdfUpload from "./components/PdfUpload.vue";
 import { useChatStore } from "./stores/chat";
 import { usePdfStore } from "./stores/pdf";
+import { askQuestion } from "./api";
 
 const chat = useChatStore();
 const pdf = usePdfStore();
+const isThinking = ref(false);
 
-function handleSend(text: string) {
+async function handleSend(text: string) {
+  // Add the user's message immediately
   chat.addMessage({ sender: "You", text });
+
+  try {
+    isThinking.value = true;
+    const { answer } = await askQuestion(text);
+    chat.addMessage({
+      sender: "System",
+      text: answer,
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Failed to get an answer.";
+    chat.addMessage({
+      sender: "System",
+      text: `Sorry, something went wrong talking to the server: ${message}`,
+    });
+  } finally {
+    isThinking.value = false;
+  }
 }
 </script>
 
@@ -27,6 +49,7 @@ function handleSend(text: string) {
       />
       <ChatMessages :messages="chat.orderedMessages" />
       <ChatComposer
+        :is-busy="isThinking"
         :can-clear="chat.messages.length > 0"
         @send="handleSend"
         @clear="chat.clearMessages"
