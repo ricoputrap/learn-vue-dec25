@@ -16,7 +16,12 @@ function formatTime(timestamp: number) {
       No messages yet. Say hi!
     </p>
     <ul v-else>
-      <li v-for="msg in props.messages" :key="msg.id" class="chat__item">
+      <li
+        v-for="msg in props.messages"
+        :key="msg.id"
+        class="chat__item"
+        :data-sender="msg.sender === 'You' ? 'you' : 'system'"
+      >
         <div class="chat__meta">
           <span class="chat__sender">{{ msg.sender }}</span>
           <span class="chat__time">{{ formatTime(msg.createdAt) }}</span>
@@ -44,8 +49,30 @@ function formatTime(timestamp: number) {
 .chat__item {
   padding: 10px 12px;
   border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #f9fafb;
+  max-width: 80%;
+}
+
+.chat__item[data-sender="system"] {
+  margin-right: auto;
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+}
+
+.chat__item[data-sender="you"] {
+  margin-left: auto;
+  background: #2563eb;
+  border-color: #1d4ed8;
+  color: #f8fbff;
+}
+
+.chat__item[data-sender="you"] .chat__time {
+  color: #e0e7ff;
+}
+
+.chat__item[data-sender="you"] .chat__sender {
+  color: #e0e7ff;
 }
 
 .chat__meta {
