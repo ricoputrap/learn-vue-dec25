@@ -34,3 +34,8 @@ coverage
 
 # Vitest
 __screenshots__/
+.vitest/
+
+# Test coverage
+coverage/
+*.lcov
