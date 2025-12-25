@@ -3,6 +3,7 @@ import ChatComposer from "./components/ChatComposer.vue";
 import ChatHeader from "./components/ChatHeader.vue";
 import ChatMessages from "./components/ChatMessages.vue";
 import PdfUpload from "./components/PdfUpload.vue";
+import RecentConversations from "./components/RecentConversations.vue";
 import { useChatStore } from "./stores/chat";
 import { usePdfStore } from "./stores/pdf";
 import { useChatActions } from "./composables/useChatActions";
@@ -16,6 +17,7 @@ const { handleSend, isThinking } = useChatActions();
     <main class="layout">
         <section class="panel">
             <PdfUpload />
+            <RecentConversations />
         </section>
 
         <section class="panel chat">
